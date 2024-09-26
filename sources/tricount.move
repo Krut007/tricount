@@ -2,6 +2,7 @@
 module tricount::tricount {
     use sui::table::{Table, Self};
     use std::vector;
+    use sui::event;
 
     public struct Count has key, store {
         id: UID,
@@ -34,8 +35,9 @@ module tricount::tricount {
     //    *list = table::add(*list, new, 0);
     //}
 
-    public entry fun balance(ctx: &mut TxContext){
-
+    public entry fun balance(tri: &mut Count, adr: address ,ctx: &mut TxContext): u64{
+        let bal = table::borrow(&tri.people, adr);
+        return *bal
     }
 
     public entry fun addMoney(tri: &mut Count, amount: u64, mut nameConsumer: vector<address>, ctx: &mut TxContext): bool{
