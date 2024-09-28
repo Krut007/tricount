@@ -4,6 +4,8 @@ module tricount::tricount {
     use std::vector;
     use sui::event;
 
+    public struct MyEvent has copy, drop, store {}
+
     public struct Vault has key, store {
         id: UID,
         total: u64,
@@ -58,7 +60,8 @@ module tricount::tricount {
             };
             let list = &mut tri.spendingList;
             vector::push_back(list, spend);
-            
+            let newSpend: MyEvent = MyEvent{};
+            event::emit(newSpend);
             return true
         } else {
             return false
